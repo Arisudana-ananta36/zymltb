@@ -132,7 +132,7 @@ def get_readable_message(sid, is_user, page_no=1, status="All", page_step=1):
     ):
         tstatus = task.status()
         user_tag = task.listener.tag.replace("@", "").replace("_", " ")
-        cancel_task = (f"<b>/{BotCommands.CancelTaskCommand[1]}_{task.gid()}</b>")
+        cancel_task = (f"<code>/{BotCommands.CancelTaskCommand} {task.gid()}</code>")
         if task.listener.isSuperChat:
             msg += f"<b>{index+start_position}.<a href='{task.listener.message.link}'>{tstatus}</a>: </b>"
         else:
@@ -146,6 +146,7 @@ def get_readable_message(sid, is_user, page_no=1, status="All", page_step=1):
             msg += f"\n{get_progress_bar_string(task.progress())} {task.progress()}"
             msg += f"\n<b>Processed:</b> {task.processed_bytes()} of {task.size()}"
             msg += f"\n<b>Speed:</b> {task.speed()} | <b>ETA:</b> {task.eta()}"
+            msg += f"\n<b>User: </b>{user_tag}"
             if hasattr(task, "seeders_num"):
                 try:
                     msg += f"\n<b>Seeders:</b> {task.seeders_num()} | <b>Leechers:</b> {task.leechers_num()}"
@@ -159,8 +160,7 @@ def get_readable_message(sid, is_user, page_no=1, status="All", page_step=1):
             msg += f" | <b>Time: </b>{task.seeding_time()}"
         else:
             msg += f"\n<b>Size: </b>{task.size()}"
-            msg += f"\n<b>User: <b/>{user_tag}"
-        msg += f"\n<blockquote>⚠️ {cancel_task}</blockquote>\n\n"
+        msg += f"\n{cancel_task}\n\n"
 
     if len(msg) == 0 and status == "All":
         return None, None
