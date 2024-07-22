@@ -131,6 +131,8 @@ def get_readable_message(sid, is_user, page_no=1, status="All", page_step=1):
         tasks[start_position : STATUS_LIMIT + start_position], start=1
     ):
         tstatus = task.status()
+        user_tag = task.listener.tag.replace("@", "").replace("_", " ")
+        cancel_task = (f"<b>/{BotCommands.CancelTaskCommand[1]}_{task.gid()}</b>")
         if task.listener.isSuperChat:
             msg += f"<b>{index+start_position}.<a href='{task.listener.message.link}'>{tstatus}</a>: </b>"
         else:
@@ -157,7 +159,8 @@ def get_readable_message(sid, is_user, page_no=1, status="All", page_step=1):
             msg += f" | <b>Time: </b>{task.seeding_time()}"
         else:
             msg += f"\n<b>Size: </b>{task.size()}"
-        msg += f"\n<b>Stop: </b><code>/{BotCommands.CancelTaskCommand} {task.gid()}</code>\n\n"
+            msg += f"\n<b>User: <b/>{user_tag}"
+        msg += f"\n<blockquote>⚠️ {cancel_task}</blockquote>\n\n"
 
     if len(msg) == 0 and status == "All":
         return None, None
