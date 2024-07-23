@@ -133,7 +133,7 @@ def get_readable_message(sid, is_user, page_no=1, status="All", page_step=1):
             MirrorStatus.STATUS_SEEDING,
             MirrorStatus.STATUS_SAMVID,
         ]:
-            msg += "<pre>"
+            msg += "<```>"
         if tstatus in [MirrorStatus.STATUS_DOWNLOADING, MirrorStatus.STATUS_UPLOADING, MirrorStatus.STATUS_CLONING]:
             msg += f"\n{get_progress_bar_string(task.progress())} {task.progress()}"
             msg += f"\n<b>Status: </b>{tstatus}"
@@ -153,7 +153,7 @@ def get_readable_message(sid, is_user, page_no=1, status="All", page_step=1):
             msg += f" | <b>Time: </b>{task.seeding_time()}"
         else:
             msg += f"\n<b>Size: </b>{task.size()}"
-        msg += "</pre>"
+        msg += "</```>"
         msg += f"\n{cancel_task}\n\n"
 
     if len(msg) == 0 and status == "All":
@@ -183,4 +183,3 @@ def get_readable_message(sid, is_user, page_no=1, status="All", page_step=1):
         f"<b>UPTM</b>: {get_readable_time(time() - botStartTime)}"
     )
     return msg, button
-    
