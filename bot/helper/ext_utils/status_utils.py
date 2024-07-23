@@ -133,11 +133,10 @@ def get_readable_message(sid, is_user, page_no=1, status="All", page_step=1):
         tstatus = task.status()
         user_tag = task.listener.tag.replace("@", "").replace("_", " ")
         cancel_task = (f"<code>/{BotCommands.CancelTaskCommand} {task.gid()}</code>")
-        if task.listener.isSuperChat:
-            msg += f"<b>{index+start_position}.<a href='{task.listener.message.link}'>{tstatus}</a>: </b>"
-        else:
-            msg += f"<b>{index+start_position}.{tstatus}: </b>"
-        msg += f"<code>{escape(f'{task.name()}')}</code>"
+        msg += (
+                f"<pre>\n<b>Task{index + start_position}: </b>"
+                f"{escape(f'{task.name()}')}\n</pre>"
+            )
         if tstatus not in [
             MirrorStatus.STATUS_SPLITTING,
             MirrorStatus.STATUS_SEEDING,
